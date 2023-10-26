@@ -22,10 +22,7 @@ const inquirer = require('inquirer');
 const express = require('express');
 app = express();
 
-
-
-
-
+const mainValues = ({viewDepartments, viewEmployees, viewRoles, addDepartment, addEmployee, addRole})
 
 const mainSelection = function mainPrompts(){
     inquirer
@@ -58,12 +55,14 @@ const mainSelection = function mainPrompts(){
                 },
                 {
                     name: 'Add a role',
-                    value: 'AddRole' 
+                    value: 'addRole' 
                 },
             ]
             }
         ]).then((input) => {
             console.log('Input is: ', input)
+            const values = mainvalues;
+            return values;
         });
 };
 
