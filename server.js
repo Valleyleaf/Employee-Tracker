@@ -20,16 +20,33 @@
 // Set up api's and middleware to handle requests.
 const inquirer = require('inquirer');
 const express = require('express');
+const chalk = require('chalk');
+const router = require('./Employee-Tracker-Assets/Assets/router/router')
 app = express();
 
-const mainValues = ({viewDepartments, viewEmployees, viewRoles, addDepartment, addEmployee, addRole})
+
+async function main(){
+    console.log(chalk.bgRed('Welcome to the Employee Directory \n' ));
+    const userSelection = router(mainSelection())
+    
+};
+//The main function creates a title and then goes straight into mainSelection. Once a selection has been made. It will go to the router middleware
+// Which will determine where the user will be sent.
+
+
+
+
+
+
+
+
 
 const mainSelection = function mainPrompts(){
     inquirer
         .prompt([ 
             {
                 type: 'list',
-                message: 'Welcome.',
+                message: 'Please enter a Selection.',
                 name: 'selector',
                 choices: 
                 [
@@ -61,9 +78,9 @@ const mainSelection = function mainPrompts(){
             }
         ]).then((input) => {
             console.log('Input is: ', input)
-            const values = mainvalues;
-            return values;
+            const value = input;
+            return value;
         });
 };
 
-mainSelection();
+main();
