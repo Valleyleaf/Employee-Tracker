@@ -21,7 +21,7 @@
 const inquirer = require('inquirer');
 const express = require('express');
 const chalk = require('chalk');
-const router = require('./Employee-Tracker-Assets/Assets/router/router')
+const router = require('index.js')
 app = express();
 
 
