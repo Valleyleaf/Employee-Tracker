@@ -21,24 +21,17 @@
 const inquirer = require('inquirer');
 const express = require('express');
 const chalk = require('chalk');
-const router = require('index.js')
+const fs = require('fs');
 app = express();
 
 
 async function main(){
     console.log(chalk.bgRed('Welcome to the Employee Directory \n' ));
-    const userSelection = router(mainSelection())
+    const userSelection = mainSelection();
     
 };
 //The main function creates a title and then goes straight into mainSelection. Once a selection has been made. It will go to the router middleware
 // Which will determine where the user will be sent.
-
-
-
-
-
-
-
 
 
 const mainSelection = function mainPrompts(){
@@ -52,34 +45,39 @@ const mainSelection = function mainPrompts(){
                 [
                     {
                     name: 'View all departments',
-                    value: 'viewDepartments' 
+                    value: 1, 
                 },
                 {
                     name: 'View all employees',
-                    value: 'viewEmployees' 
+                    value: 2,
                 },
                 {
                     name: 'View all roles',
-                    value: 'viewRoles' 
+                    value: 3, 
                 },
                 {
                     name: 'Add a Department',
-                    value: 'addDepartment' 
+                    value: 4,
                 },
                 {
                     name: 'Add a Employee',
-                    value: 'addEmployee' 
+                    value: 5,
                 },
                 {
                     name: 'Add a role',
-                    value: 'addRole' 
+                    value: 6,
                 },
             ]
             }
         ]).then((input) => {
-            console.log('Input is: ', input)
-            const value = input;
-            return value;
+                const userInput = input.selector;
+                if(userInput < 3){
+                    console.log('Go to view')
+                }else{
+                    console.log('Go to add')
+                }
+                // The above checks to see if the user wants to view or add something. This will then tie into two seperate functions.
+                // These functions will then return values based on specifics.
         });
 };
 

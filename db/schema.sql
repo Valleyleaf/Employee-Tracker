@@ -13,7 +13,7 @@ CREATE TABLE employees (
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   role_id INT NOT NULL,
-  manager_id INT NOT NULL,
+  manager_id,
 );
 
 CREATE TABLE managers (
@@ -25,6 +25,6 @@ CREATE TABLE managers (
 CREATE TABLE roles (
   role_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
-  salery TEXT NOT NULL,
+  salary TEXT NOT NULL,
   department_id INT NOT NULL,
 );
