@@ -46,6 +46,7 @@ async function viewOrAdd(data){
         case 2:
         case 3:
           console.log('Hit View Something');
+          view(data);
           break;
         case 4:
           console.log('Hit add Department');
@@ -62,6 +63,19 @@ async function viewOrAdd(data){
       }
       
   };
+
+  const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
+  });
+
+function view(data){
+    db.query('SELECT * FROM ', data, function (err, results) {
+        console.log(results);
+      });
+}
 
 
   sequelize.sync({ force: true }).then(() => {
