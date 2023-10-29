@@ -1,30 +1,43 @@
 // This index will take the users input and parse it to move the user to the correct selection.
 
+const inquirer = require('inquirer');
 
-function userChoice(value) {
-    switch (value) {
-      case "viewDepartments":
-        return "VALUE VIEWDEPARTMENTS";
-      case "viewEmployees":
-        return "VALUE VIEWEMPLOYEES.";
-      case "viewRoles":
-        return "VALUE VIEWROLES";
-      case "addDepartment":
-        return "VALUE ADD DEPARTMENTS";
-      case "addEmployee":
-        return "VALUE ADD EMPLOYEE";
-      case "addRole":
-        return "VALUE ADD ROLE";
-      default:
-        return "Invalid Selection";
+async function mainPrompts() {
+  const input = await inquirer.prompt([
+    {
+      type: 'list',
+      message: 'Please enter a Selection.',
+      name: 'selector',
+      choices: [
+        {
+          name: 'View all departments',
+          value: 1,
+        },
+        {
+          name: 'View all employees',
+          value: 2,
+        },
+        {
+          name: 'View all roles',
+          value: 3,
+        },
+        {
+          name: 'Add a Department',
+          value: 4,
+        },
+        {
+          name: 'Add a Employee',
+          value: 5,
+        },
+        {
+          name: 'Add a role',
+          value: 6,
+        },
+      ]
     }
-  }
-  
-  module.exports = userChoice;
+  ])
+  const userInput = input.selector;
+  return userInput;
+}
 
-// Don't think i need this either? I can do the entire project on my server.js... but I want to be modular.
-
-// Do I add all of my remaining functions here or do I split them up?
-
-// Thinking I will have all the view functions in one spot and then my add functions in another. Could make it very
-// <<MODULAR>> that way.
+module.exports = mainPrompts;

@@ -21,64 +21,48 @@
 const inquirer = require('inquirer');
 const express = require('express');
 const chalk = require('chalk');
+const mysql = require('mysql2');
 const fs = require('fs');
+const mainMenuInput = require('./index');
 app = express();
+// Is app needed here or did you add it just because?
 
 
 async function main(){
     console.log(chalk.bgRed('Welcome to the Employee Directory \n' ));
-    const userSelection = mainSelection();
+    viewOrAddValue = await mainMenuInput()
+    viewOrAdd(viewOrAddValue)
     
 };
 //The main function creates a title and then goes straight into mainSelection. Once a selection has been made. It will go to the router middleware
 // Which will determine where the user will be sent.
 
+async function viewOrAdd(data){
+    switch (data) {
+        case 1:
+        case 2:
+        case 3:
+          console.log('Hit View Something');
+          break;
+        case 4:
+          console.log('Hit add Department');
+          break;
+        case 5:
+          console.log('Hit add Employee');
+          break;
+        case 6:
+          console.log('Hit add Role');
+          break;
+        default:
+          console.log('Invalid input');
+          break;
+      }
+      
+  };
+// Change this to track names rather than int values because this is bad code but will do for now.
 
-const mainSelection = function mainPrompts(){
-    inquirer
-        .prompt([ 
-            {
-                type: 'list',
-                message: 'Please enter a Selection.',
-                name: 'selector',
-                choices: 
-                [
-                    {
-                    name: 'View all departments',
-                    value: 1, 
-                },
-                {
-                    name: 'View all employees',
-                    value: 2,
-                },
-                {
-                    name: 'View all roles',
-                    value: 3, 
-                },
-                {
-                    name: 'Add a Department',
-                    value: 4,
-                },
-                {
-                    name: 'Add a Employee',
-                    value: 5,
-                },
-                {
-                    name: 'Add a role',
-                    value: 6,
-                },
-            ]
-            }
-        ]).then((input) => {
-                const userInput = input.selector;
-                if(userInput < 3){
-                    console.log('Go to view')
-                }else{
-                    console.log('Go to add')
-                }
-                // The above checks to see if the user wants to view or add something. This will then tie into two seperate functions.
-                // These functions will then return values based on specifics.
-        });
-};
+// Make modular function. Should I reduce this to 1 function instead of 2?
+// Don't think I need a switch function.
+
 
 main();

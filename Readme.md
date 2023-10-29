@@ -12,19 +12,19 @@
 * [Questions](#Questions)
 
 ## 💻Description
-
+This is a command line project made to learn about SQL.
 
 ## 🚨Installation
-
+Download and run through terminal using Node
 
 ## ✅Dependancies
-
+Inquirerer, chalk, SQL and node
 
 ## 🚀Usage
-
+Free to use.
 
 ## 💊Test
- 
+N/A
 
 ## 👤Questions
 Find me at https://github.com/Valleyleaf or reach out to me
