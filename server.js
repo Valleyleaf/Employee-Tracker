@@ -23,9 +23,12 @@ const express = require('express');
 const chalk = require('chalk');
 const mysql = require('mysql2');
 const fs = require('fs');
+const sequelize = require('./Assets/router/connections');
 const mainMenuInput = require('./index');
 app = express();
 // Is app needed here or did you add it just because?
+
+const PORT = process.env.PORT || 3001;
 
 
 async function main(){
@@ -59,10 +62,10 @@ async function viewOrAdd(data){
       }
       
   };
-// Change this to track names rather than int values because this is bad code but will do for now.
-
-// Make modular function. Should I reduce this to 1 function instead of 2?
-// Don't think I need a switch function.
 
 
-main();
+  sequelize.sync({ force: true }).then(() => {
+    app.listen(PORT, () => main());
+
+  });
+
