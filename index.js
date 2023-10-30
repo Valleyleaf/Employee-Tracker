@@ -11,27 +11,27 @@ async function mainPrompts() {
       choices: [
         {
           name: 'View all departments',
-          value: 1,
+          value: 'departments',
         },
         {
           name: 'View all employees',
-          value: 2,
+          value: 'employees',
         },
         {
           name: 'View all roles',
-          value: 3,
+          value: 'roles',
         },
         {
           name: 'Add a Department',
-          value: 4,
+          value: 'addDepartment',
         },
         {
           name: 'Add a Employee',
-          value: 5,
+          value: 'addEmployee',
         },
         {
           name: 'Add a role',
-          value: 6,
+          value: 'addRole',
         },
       ]
     }

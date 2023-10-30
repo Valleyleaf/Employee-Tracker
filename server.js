@@ -55,21 +55,17 @@ async function main(){
 // I'm using data as a general pass-term. Is this a bad idea?
 async function viewOrAdd(data){
     switch (data) {
-        case 1:
-        case 2:
-        case 3:
+        case 'departments':
+        case 'employees':
+        case 'roles':
           view(data);
           break;
 // ----> View Above, Add Below <----
         case 4:
+        case 5:
+        case 6:
           console.log('Hit add Department');
           add(data);
-          break;
-        case 5:
-          console.log('Hit add Employee');
-          break;
-        case 6:
-          console.log('Hit add Role');
           break;
         default:
           console.log('Invalid input');
@@ -77,10 +73,10 @@ async function viewOrAdd(data){
       }
       
   };
-// Data will represent a INT through this entire structure. change to string for better tracking and easier query
+// Data will represent a INT through this entire structure. change to string for better tracking and easier query.
 function view(data){
   
-    db.query(`SELECT * FROM ${tableName}`, data, function (err, results) {
+    db.query(`SELECT * FROM ${data}`, function (err, results) {
       if (err){
         console.log(err)
       }else
