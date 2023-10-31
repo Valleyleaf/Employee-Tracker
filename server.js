@@ -42,8 +42,7 @@ const db = mysql.createConnection({
 
 async function main(){
     console.log(chalk.bgRed('Welcome to the Employee Directory \n' ));
-    viewOrAddValue = await mainMenuInput()
-    console.log('VieworAddValue is: ', viewOrAddValue)
+    let viewOrAddValue = await mainMenuInput()
     viewOrAdd(viewOrAddValue)
     
 };
@@ -55,8 +54,8 @@ async function main(){
 // I'm using data as a general pass-term. Is this a bad idea?
 async function viewOrAdd(data){
     switch (data) {
-        case 'departments':
-        case 'employees':
+        case 'department':
+        case 'employee':
         case 'roles':
           view(data);
           break;
@@ -68,23 +67,33 @@ async function viewOrAdd(data){
           add(data);
           break;
         default:
-          console.log('Invalid input');
+          console.log(data,'Invalid input');
           break;
       }
       
   };
 // Data will represent a INT through this entire structure. change to string for better tracking and easier query.
 function view(data){
-  
+  console.log('inside Data',data)
     db.query(`SELECT * FROM ${data}`, function (err, results) {
       if (err){
         console.log(err)
       }else
+      //if it viewDepartment
         console.log('Hit view function')
         console.log(results);
+        return;
       });
 }
 // Make tableName into a seperate variable based on data. Do if statement here? Seems kinda ridged.
+
+//Write funciton viewDepartment. 'SELECT department.di,department.name 
+
+
+function removeEmployee (employeeId) {
+  //  DELETE FROM employee where id = ?;
+  // employeeId
+}
 
 function add(data){
     console.log('Hit add function')
