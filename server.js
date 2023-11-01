@@ -25,6 +25,7 @@ const chalk = require('chalk');
 const mysql = require('mysql2');
 const fs = require('fs');
 const sequelize = require('./Assets/router/connections');
+const addEmployee = require('./Assets/js/addEmployee');
 const mainMenuInput = require('./index');
 app = express();
 // Is app needed here or did you add it just because?
@@ -46,6 +47,28 @@ async function main(){
     viewOrAdd(viewOrAddValue)
     
 };
+
+async function next(){
+    const input = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'confirmation',
+        message: 'Return to main menu?',
+      }
+    ])
+    .then((answers) => {
+      if (answers.confirmation) {
+        main();
+      } else {
+        process.exit(0);
+      }
+    });
+    
+}
+//The above function is a little bit of a cheat. I wanted to give the user some respite when they searched something
+// rather then it jumping back to the main menu. Google told me to use 'readline' but I didn't feel like importing
+// more modules. So instead, the user will recieve the option to return to main menu or exit out of the application.
+
 //The main function creates a title and then goes straight into mainSelection. Once a selection has been made. It will go to the router middleware
 // Which will determine where the user will be sent.
 
@@ -60,47 +83,78 @@ async function viewOrAdd(data){
           view(data);
           break;
 // ----> View Above, Add Below <----
-        case 4:
-        case 5:
-        case 6:
-          console.log('Hit add Department');
-          add(data);
+        case 'addDepartment':
+          addDepartment(data);
           break;
+
+        case 'addEmployee':
+          addNewEmployee(data);
+          break;
+
+        case 'addRole':
+          addRole(data);
+          break;
+
         default:
           console.log(data,'Invalid input');
           break;
       }
       
   };
-// Data will represent a INT through this entire structure. change to string for better tracking and easier query.
+// Data will represent a INT through this entire structure> Change to string for better tracking and easier query> DONE.
 function view(data){
-  console.log('inside Data',data)
     db.query(`SELECT * FROM ${data}`, function (err, results) {
       if (err){
         console.log(err)
       }else
       //if it viewDepartment
         console.log('Hit view function')
-        console.log(results);
-        return;
+        console.table(results);
+        next();
       });
 }
 // Make tableName into a seperate variable based on data. Do if statement here? Seems kinda ridged.
 
 //Write funciton viewDepartment. 'SELECT department.di,department.name 
 
-
 function removeEmployee (employeeId) {
   //  DELETE FROM employee where id = ?;
   // employeeId
 }
 
-function add(data){
-    console.log('Hit add function')
+async function addDepartment(data){
+    console.log(data, 'Hit addDepartment')
+
 }
 
-  sequelize.sync({ force: true }).then(() => {
-    app.listen(PORT, () => main());
+async function addNewEmployee(data){
+  // Data here is what is returned from viewOrAdd.
+  console.log(data, 'Hit addEmployee')
+  db.query(`SELECT * FROM roles`, async function (err,results){
+    // Results = * which is everything from the roles table.
+    if (err){
+    console.log(err)
+  }else{
+    console.table('This is results: ', results) 
+    const newRoles = results.map((data) => {
+      return {
+        name: data.title,
+        value: data.id,
+      }
+    })
+    console.log(newRoles)
+    const newEmployee = await addEmployee(newRoles);
+    console.log('New Employee value is: ', newEmployee);
+    db.query(`INSERT INTO employee ?`, newEmployee)
+  }
+  })
 
-  });
 
+}
+
+async function addRole(data){
+  console.log(data, 'Hit addRole')
+
+}
+
+  main()

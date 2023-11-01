@@ -1,12 +1,11 @@
 -- Company will be devops. What is needed? development, operations, infrastructure, QA and security.
 use company_db;
--- Departments
+
 INSERT INTO department (name)
 VALUES
   ('Development'),
   ('Operations'),
 
--- Roles dep 1
 INSERT INTO roles (title, salary, department_id)
 VALUES
   ('Software Engineer', 80000, 1),
