@@ -25,8 +25,9 @@ CREATE TABLE employee (
   role_id INT UNSIGNED NOT NULL,
   INDEX role_ind (role_id),
   CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
-  manager_id INT UNSIGNED,
+  manager_id INT NOT NULL,
   INDEX man_ind (manager_id),
+  -- What does INDEX do here again? Take better notes on this stuff.
   CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
 );
 

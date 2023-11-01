@@ -25,6 +25,7 @@ const chalk = require('chalk');
 const mysql = require('mysql2');
 const fs = require('fs');
 const sequelize = require('./Assets/router/connections');
+// Why do I need sequelize again? Dunno but if I remove it, my code stops working.
 const addEmployee = require('./Assets/js/addEmployee');
 const mainMenuInput = require('./index');
 app = express();
@@ -101,14 +102,12 @@ async function viewOrAdd(data){
       }
       
   };
-// Data will represent a INT through this entire structure> Change to string for better tracking and easier query> DONE.
+
 function view(data){
     db.query(`SELECT * FROM ${data}`, function (err, results) {
       if (err){
         console.log(err)
       }else
-      //if it viewDepartment
-        console.log('Hit view function')
         console.table(results);
         next();
       });
@@ -135,7 +134,6 @@ async function addNewEmployee(data){
     if (err){
     console.log(err)
   }else{
-    console.table('This is results: ', results) 
     const newRoles = results.map((data) => {
       return {
         name: data.title,
