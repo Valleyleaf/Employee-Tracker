@@ -21,10 +21,8 @@ Download and run through terminal using Node
 Inquirerer, chalk, SQL and node
 
 ## 🚀Usage
-Free to use.
-
-## 💊Test
-N/A
+How to use video: 
+https://drive.google.com/file/d/1KOau15RMI16hB9lvLwELwmRAjRvALWeU/view?usp=sharing
 
 ## 👤Questions
 Find me at https://github.com/Valleyleaf or reach out to me

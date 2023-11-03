@@ -24,21 +24,17 @@ const express = require('express');
 const chalk = require('chalk');
 const mysql = require('mysql2');
 const fs = require('fs');
+const { prompt } = require("inquirer");
 const sequelize = require('./Assets/router/connections');
 // Why do I need sequelize again? Dunno but if I remove it, my code stops working.
-const addEmployee = require('./Assets/js/addEmployee');
+//  const addEmployee = require('./Assets/js/addEmployee');
 const mainMenuInput = require('./index');
 app = express();
 // Is app needed here or did you add it just because?
 
 const PORT = process.env.PORT || 3001;
+const db = require('./db/db.js')
 
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
-  });
 
 // ------------------------------------------------------------------------------------------------------------------
 
@@ -46,7 +42,6 @@ async function main(){
     console.log(chalk.bgRed('Welcome to the Employee Directory \n' ));
     let viewOrAddValue = await mainMenuInput()
     viewOrAdd(viewOrAddValue)
-    
 };
 
 async function next(){
@@ -122,36 +117,66 @@ function removeEmployee (employeeId) {
 }
 
 async function addDepartment(data){
-    console.log(data, 'Hit addDepartment')
+    prompt([
+      {
+        type: 'input',
+        name: 'department',
+        message: 'Department Name: ',
+      },
+      {
 
-}
-
-async function addNewEmployee(data){
-  // Data here is what is returned from viewOrAdd.
-  console.log(data, 'Hit addEmployee')
-  db.query(`SELECT * FROM roles`, async function (err,results){
-    // Results = * which is everything from the roles table.
-    if (err){
-    console.log(err)
-  }else{
-    const newRoles = results.map((data) => {
-      return {
-        name: data.title,
-        value: data.id,
       }
-    })
-    console.log(newRoles)
-    const newEmployee = await addEmployee(newRoles);
-    console.log('New Employee value is: ', newEmployee);
-    db.query(`INSERT INTO employee ?`, newEmployee)
-  }
-  })
-
-
+    ])
 }
 
-async function addRole(data){
-  console.log(data, 'Hit addRole')
+
+function addNewEmployee(data) {
+  prompt ([
+    {
+      type: 'input',
+      name: 'first_name',
+      message: 'First Name: ',
+    },
+    {
+        type: 'input',
+        name: 'last_name',
+        message: 'Last Name: ',
+      },
+  ]).then( res =>{
+    let firstName = res.firstName;
+    let lastName = res.lastName;
+    const sql = `SELECT roles.id, roles.title, department.name AS department, roles.salary FROM roles LEFT JOIN department on roles.department_id = department.id`
+    db.query(sql, res,(error,result)=>{
+        const rolesChoices = result.map(role => ({
+          name:`${role.title} (${role.department}, Salary:${role.salary})`,
+          value: role.id
+        }))
+        prompt([{
+            type: 'list',
+            name: 'Role_Id',
+            message: 'select role: ',
+            choices: rolesChoices
+        }]).then( roleResult =>{
+          const newEmployeeWithRoles = {
+            first_name:res.first_name,
+            last_name:res.last_name,
+            role_id: roleResult.Role_Id
+          };
+          const insertSql = "INSERT INTO employee SET ?";
+          db.query(insertSql, newEmployeeWithRoles, (err, res)=>{
+            if (err){
+              console.log(err)
+            }else{
+              console.log('we added a new employee')
+              next();
+            }
+          })
+        })
+      })
+  })
+}
+
+ function addRole(data){
 
 }
 

@@ -14,8 +14,7 @@ CREATE TABLE roles (
   title VARCHAR(30) UNIQUE NOT NULL,
   salary DECIMAL UNSIGNED NOT NULL,
   department_id INT UNSIGNED NOT NULL,
-  INDEX dep_ind (department_id),
-  CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE CASCADE
+  INDEX dep_ind (department_id)
 );
 
 CREATE TABLE employee (
@@ -24,13 +23,9 @@ CREATE TABLE employee (
   last_name VARCHAR(30) NOT NULL,
   role_id INT UNSIGNED NOT NULL,
   INDEX role_ind (role_id),
-  CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
-  manager_id INT NOT NULL,
-  INDEX man_ind (manager_id),
-  -- What does INDEX do here again? Take better notes on this stuff.
-  CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
+  manager_id INT UNSIGNED,
+  INDEX man_ind (manager_id)
 );
-
 
 -- ALTER TABLE employees ADD FOREIGN KEY (manager_id) REFERENCES managers(manager_id);
 -- companyDB ,employee doesn't exist
